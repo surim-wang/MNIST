@@ -1,0 +1,5 @@
+conda create -n 프로젝트이름 python=3.7 anaconda
+activate tensorflow
+conda update pip
+conda install tensorflow-gpu
+spyder
