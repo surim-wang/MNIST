@@ -3,3 +3,6 @@ activate tensorflow
 conda update pip
 conda install tensorflow-gpu
 spyder
+
+
+
