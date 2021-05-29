@@ -106,22 +106,27 @@ test = test.values.reshape(-1,28,28,1)
 #%%
 # Encode labels to one hot vectors (ex : 2 -> [0,0,1,0,0,0,0,0,0,0])
 Y_train = to_categorical(Y_train, num_classes = 10)
+#(42000,) to (42000,10)으로 구조 변경 됨. 왜 하는걸까? 
+# 10진법을 2진법으로 : 어떤 성능차이가 생기는건가?
+# 문자를 이진 숫자로 바꿔줘야 컴퓨터가 이해하는데 도움이 되기때문.
+from keras.utils import np_utils
+np_utils.to_categorical(2)
+np_utils.to_categorical(2,3)
+np_utils.to_categorical(2,5)
+np_utils.to_categorical(3,5) #(1이 들어갈 위치, 전체 크기)
 
 #%%
 # Set the random seed
-random_seed = 2
+random_seed = 2 #난수를 예측 할 수 있게 시드를 고정시킨다.
 
 #%%
 # Split the train and the validation set for the fitting
 X_train, X_val, Y_train, Y_val = train_test_split(X_train, Y_train, test_size = 0.1, random_state=random_seed)
-
+# 훈련데이터와 검증데이터로 나눈다.
 #%%
 # Some examples
 g = plt.imshow(X_train[0][:,:,0])
-b= X_train[0]
-a= X_train[0][:,:,0]
-aa= X_train[0][:,0,:]
-aaa = X_train[0][0,:,:]
+
 # 28,28,1 이라는게 x,y,z축을 의미하는게 아닌가? 
 
 
