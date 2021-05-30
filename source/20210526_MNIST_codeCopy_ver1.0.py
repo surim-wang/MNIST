@@ -130,8 +130,6 @@ X_train, X_val, Y_train, Y_val = train_test_split(X_train, Y_train, test_size = 
 # Some examples
 g = plt.imshow(X_train[0][:,:,0])
 
-# 28,28,1 이라는게 x,y,z축을 의미하는게 아닌가? 
-
 
 #%%
 # Set the CNN model 
