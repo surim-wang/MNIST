@@ -9,6 +9,9 @@ Created on Sun May 30 18:20:30 2021
 #라이브러리 불러오기
 import pandas as pd
 from pandas import Series, DataFrame
+import os
+os.chdir('D:/MNIST/source')
+
 #데이터 불러오기
 data = pd.read_excel('../data/example_one_column.xlsx')
 
@@ -48,7 +51,7 @@ for i, name in enumerate(data['name']):
 # 정렬해서 살펴보기
 data = data.sort_values(by=['count'], axis=0, ascending = False)
 
-
+data = data.reset_index(drop=True)
 
 
 
