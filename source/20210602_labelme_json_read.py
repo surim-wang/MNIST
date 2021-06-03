@@ -14,7 +14,7 @@ os.chdir('D:/MNIST/source')
 
 #%%
 #json 파일 읽기전에 원본을 불러와서 비교 준비하기
-image = cv2.imread('../image/SCAN_01.jpg')    
+image = cv2.imread('../image/SCAN_01.jpg')
 
 #labelme로 라벨링한 json 파일 읽기
 with open('../image/SCAN_01.json', "r", encoding='UTF8') as st_json:
@@ -92,3 +92,50 @@ cv2.imwrite('../image/draw_rectangle.jpg', image) # 파일 경로 & 명,
 
 #%% 이미지 잘라서 데이터셋의 형태로 만들어 보기 : 
 # 이미지에 사각형을 그리는게 중요한게 아니라 좌표를 이용해서 이미지 값을 불러오는게 중요하다.
+
+image = cv2.imread('../image/SCAN_01.jpg', cv2.IMREAD_COLOR)
+
+
+x1 = int(st_python['shapes'][0]['points'][0][0]) #0,0 첫좌표의 행값
+y1 = int(st_python['shapes'][0]['points'][0][1]) #0,0 첫좌표의 열값
+# 마지막 좌표
+x2 = int(st_python['shapes'][0]['points'][1][0])
+y2 = int(st_python['shapes'][0]['points'][1][1])
+    
+
+cropped_image = image[y1: y2, x1: x2].copy()
+    
+    
+#이미지 보기
+cv2.imshow('cropped_image',cropped_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+#이미지 저장하기
+cv2.imwrite('../image/test_result/{}.jpg'.format(i), cropped_image) # 파일 경로 & 명, 
+
+#%% 반복문의로 변경
+image = cv2.imread('../image/SCAN_01.jpg', cv2.IMREAD_COLOR)
+for i in range(len(st_python['shapes'])):
+    # 첫 좌표
+    x1 = int(st_python['shapes'][i]['points'][0][0]) #0,0 첫좌표의 행값
+    y1 = int(st_python['shapes'][i]['points'][0][1]) #0,0 첫좌표의 열값
+    # 마지막 좌표
+    x2 = int(st_python['shapes'][i]['points'][1][0])
+    y2 = int(st_python['shapes'][i]['points'][1][1])
+    #크롭 이미지
+    if x1 > x2:
+        if y1 > y2:
+            cropped_image = image[y2: y1, x2: x1].copy()    
+        else:
+            cropped_image = image[y1: y2, x2: x1].copy()    
+    else:
+        if y1 > y2:
+            cropped_image = image[y2: y1, x1: x2].copy()    
+        else:
+            cropped_image = image[y1: y2, x1: x2].copy()    
+    
+    #이미지 저장하기
+    cv2.imwrite('../image/test_result/{}.jpg'.format(i), cropped_image) # 파일 경로 & 명, 
+
+

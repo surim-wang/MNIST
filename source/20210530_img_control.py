@@ -12,7 +12,8 @@ import os
 os.chdir('D:/MNIST/source')
 from PIL import Image
 import cv2
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as 
+
 
 #%% 이미지 로드
 img_ori = cv2.imread('../image/SCAN_01.jpg')

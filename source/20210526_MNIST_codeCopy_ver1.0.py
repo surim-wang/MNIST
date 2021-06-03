@@ -43,6 +43,18 @@ test.shape
 
 visual = test.iloc[252:280,252:280] # 이렇게 해서는 숫자를 알수가 없다. 리셰잎을 해서 한줄로 늘어진 데이터를 이차원 데이터로 바꾸어야 한다.
 visual.to_csv('../data/visual.csv')
+
+import cv2
+
+def drawing_number(row):
+    visual_line = train.iloc[row,1:]
+    visual_line  = np.array(visual_line )
+    result = np.reshape(visual_line,(28,28), order='C')
+    cv2.imwrite('../image/testResult/{}.jpg'.format(row), result) # 파일 경로 & 명, 파일
+
+for i in range(0,100):
+    drawing_number(i)
+    
 #%%
 Y_train = train["label"]
 
