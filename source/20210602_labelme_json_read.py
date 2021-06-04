@@ -139,3 +139,4 @@ for i in range(len(st_python['shapes'])):
     cv2.imwrite('../image/test_result/{}.jpg'.format(i), cropped_image) # 파일 경로 & 명, 
 
 
+  
