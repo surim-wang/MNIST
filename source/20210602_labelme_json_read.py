@@ -276,7 +276,8 @@ df= pd.DataFrame(columns= columns_lst)
 data = pd.Series(flat_img)
 test =data.values.reshape((1,-1))
 
-df = pd.DataFrame(columns= columns_lst)
+df_test = pd.DataFrame(columns= columns_lst, data = test)
+df_test = df_test.append(df_test, ignore_index=True)
 
 
 #%%데이터 플랫하게 만들기
@@ -311,7 +312,9 @@ for i in range(len(st_python['shapes'])):
     #이미지 구조 변경
     flat_img = flat_img.values.reshape((1,-1))
     df2 = pd.DataFrame(columns= columns_lst, data= flat_img)
-    df.append(df2, ignore_index=True)
+    df = df.append(df2, ignore_index=True)
+    
+df.to_csv('../data/dataset_test.csv', encoding ='utf-8')
     
     
     
