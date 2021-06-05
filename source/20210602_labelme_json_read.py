@@ -33,7 +33,7 @@ st_python
 #7 version:리벨미의 버전
 
 #%% st_python의 6번 분석하기
-st_python['shapes'][0] 
+st_python['shapes'][0]
 #{'label': '의', 
 # 'points': [[57.57575757575757, 103.03030303030302], #사각형의 첫번째 포인트
 #  [93.33333333333333, 137.57575757575756]], #사각형의 두번째 포인트
@@ -243,4 +243,33 @@ for i in range(len(st_python['shapes'])):
 
     #이미지 저장하기
     cv2.imwrite('../image/test_result/{}.jpg'.format(i), img) # 파일 경로 & 명, 
+
+#%% MNIST 데이터셋 구조로 만들기
+#MNIST 분석하기
+train = pd.read_csv("../data/train.csv") #MNIST 데이터셋 (42000, 785) 라벨 포함 1 + 748
+
+Y_train = train["label"]
+X_train = train.drop(labels = ["label"],axis = 1)     
+    
+    
+st_python['shapes'][0]['label'] #0만 바꿔주면 됨.
+
+# 라벨을 리스트로 만들기
+data = st_python['shapes'] #341
+label_lst = []
+for i in range(len(data)):
+    label = st_python['shapes'][i]['label']
+    label_lst.append(label)
+
+#%%    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
