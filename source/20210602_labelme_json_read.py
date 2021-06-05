@@ -261,10 +261,57 @@ for i in range(len(data)):
     label = st_python['shapes'][i]['label']
     label_lst.append(label)
 
-#%%    
+#%% 플랫한 데이터를 담을 데이터 프레임 만들기 
+pixel_lst = []
+for i in range(3025):
+    name = 'pixel_{}'.format(i)
+    print(name)
+    pixel_lst.append(name)
     
     
+#데이터 프레임 컬럼 입력하기
+df= pd.DataFrame(columns= columns_lst)
     
+#데이터 프레임 데이터 입력 테스트하기
+data = pd.Series(flat_img)
+test =data.values.reshape((1,-1))
+
+df = pd.DataFrame(columns= columns_lst)
+
+
+#%%데이터 플랫하게 만들기
+image = cv2.imread('../image/SCAN_01.jpg', cv2.IMREAD_COLOR)
+for i in range(len(st_python['shapes'])):
+    # 첫 좌표
+    x1 = int(st_python['shapes'][i]['points'][0][0]) #0,0 첫좌표의 행값
+    y1 = int(st_python['shapes'][i]['points'][0][1]) #0,0 첫좌표의 열값
+    # 마지막 좌표
+    x2 = int(st_python['shapes'][i]['points'][1][0])
+    y2 = int(st_python['shapes'][i]['points'][1][1])
+    #크롭 이미지
+    if x1 > x2:
+        if y1 > y2:
+            cropped_image = image[y2: y1, x2: x1].copy()    
+        else:
+            cropped_image = image[y1: y2, x2: x1].copy()    
+    else:
+        if y1 > y2:
+            cropped_image = image[y2: y1, x1: x2].copy()    
+        else:
+            cropped_image = image[y1: y2, x1: x2].copy()    
+    #cropped_image = 255 - cropped_image
+    img = border_make(cropped_image)
+    dst = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ret ,img = cv2.threshold(dst,127,255,0)
+# 이미지 데이터 플렛하게 만들기
+    flat_img = img.flatten()
+# 데이터 프레임에 플렛한 이미지 값 입력하기
+    #이미지 플랫화
+    flat_img = pd.Series(flat_img)
+    #이미지 구조 변경
+    flat_img = flat_img.values.reshape((1,-1))
+    df2 = pd.DataFrame(columns= columns_lst, data= flat_img)
+    df.append(df2, ignore_index=True)
     
     
     
