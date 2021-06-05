@@ -156,7 +156,7 @@ border = cv2.copyMakeBorder(
     bottom = math.floor(row_bordersize),
     left = math.ceil(col_bordersize),
     right = math.floor(col_bordersize),
-    borderType = cv2.BORDER_CONSTANT,
+    borderType = cv2.BORDER_CONSTANT,  
     value = [mean, mean, mean]
 )
 
@@ -179,7 +179,7 @@ def border_make(image):
         bottom = math.floor(row_bordersize),
         left = math.ceil(col_bordersize),
         right = math.floor(col_bordersize),
-        borderType = cv2.BORDER_CONSTANT,
+        borderType = cv2.BORDER_ISOLATED, #BORDER_ISOLATED  BORDER_CONSTANT
         value = [mean, mean, mean]
     )
     return border
@@ -210,3 +210,37 @@ for i in range(len(st_python['shapes'])):
     img = border_make(cropped_image)
     #이미지 저장하기
     cv2.imwrite('../image/test_result/{}.jpg'.format(i), img) # 파일 경로 & 명, 
+    
+#%% 이미지 임계값 처리 후 반복문으로 데이터 셋 만들기
+# 임계값 넘으면 완전 블랙 아니면 0으로 이미지 재 처리하기 
+image = cv2.imread('../image/SCAN_01.jpg', cv2.IMREAD_COLOR)
+dst = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+ret ,image = cv2.threshold(dst,127,255,0)
+ #%%   
+image = cv2.imread('../image/SCAN_01.jpg', cv2.IMREAD_COLOR)
+for i in range(len(st_python['shapes'])):
+    # 첫 좌표
+    x1 = int(st_python['shapes'][i]['points'][0][0]) #0,0 첫좌표의 행값
+    y1 = int(st_python['shapes'][i]['points'][0][1]) #0,0 첫좌표의 열값
+    # 마지막 좌표
+    x2 = int(st_python['shapes'][i]['points'][1][0])
+    y2 = int(st_python['shapes'][i]['points'][1][1])
+    #크롭 이미지
+    if x1 > x2:
+        if y1 > y2:
+            cropped_image = image[y2: y1, x2: x1].copy()    
+        else:
+            cropped_image = image[y1: y2, x2: x1].copy()    
+    else:
+        if y1 > y2:
+            cropped_image = image[y2: y1, x1: x2].copy()    
+        else:
+            cropped_image = image[y1: y2, x1: x2].copy()    
+    #cropped_image = 255 - cropped_image
+    img = border_make(cropped_image)
+    dst = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ret ,img = cv2.threshold(dst,127,255,0)
+
+    #이미지 저장하기
+    cv2.imwrite('../image/test_result/{}.jpg'.format(i), img) # 파일 경로 & 명, 
+    
