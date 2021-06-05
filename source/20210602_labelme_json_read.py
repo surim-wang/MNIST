@@ -139,4 +139,74 @@ for i in range(len(st_python['shapes'])):
     cv2.imwrite('../image/test_result/{}.jpg'.format(i), cropped_image) # 파일 경로 & 명, 
 
 
-  
+#%% 테두리 입히기 
+import math
+
+im = cv2.imread('../image/test_result/24.jpg')
+row, col = im.shape[:2]
+bottom = im[row-2:row, 0:col]
+mean = cv2.mean(bottom)[0]
+
+col_bordersize = (55-col)/2
+row_bordersize = (55-row)/2
+
+border = cv2.copyMakeBorder(
+    im,
+    top = math.ceil(row_bordersize),
+    bottom = math.floor(row_bordersize),
+    left = math.ceil(col_bordersize),
+    right = math.floor(col_bordersize),
+    borderType = cv2.BORDER_CONSTANT,
+    value = [mean, mean, mean]
+)
+
+cv2.imwrite('../image/test_result/{}.jpg'.format('test.jpg'), border) # 파일 경로 & 명, 
+#%% 테두리 입히기  함수로 만들기
+import math
+image = cv2.imread('../image/test_result/24.jpg')
+
+def border_make(image):
+    row, col = image.shape[:2]
+    bottom = image[row-2:row, 0:col]
+    mean = cv2.mean(bottom)[0]
+    
+    col_bordersize = (55-col)/2
+    row_bordersize = (55-row)/2
+    
+    border = cv2.copyMakeBorder(
+        image,
+        top = math.ceil(row_bordersize),
+        bottom = math.floor(row_bordersize),
+        left = math.ceil(col_bordersize),
+        right = math.floor(col_bordersize),
+        borderType = cv2.BORDER_CONSTANT,
+        value = [mean, mean, mean]
+    )
+    return border
+    
+#cv2.imwrite('../image/test_result/{}.jpg'.format('test.jpg'), border) # 파일 경로 & 명, 
+    
+#%% 반복문의로 변경
+image = cv2.imread('../image/SCAN_01.jpg', cv2.IMREAD_COLOR)
+for i in range(len(st_python['shapes'])):
+    # 첫 좌표
+    x1 = int(st_python['shapes'][i]['points'][0][0]) #0,0 첫좌표의 행값
+    y1 = int(st_python['shapes'][i]['points'][0][1]) #0,0 첫좌표의 열값
+    # 마지막 좌표
+    x2 = int(st_python['shapes'][i]['points'][1][0])
+    y2 = int(st_python['shapes'][i]['points'][1][1])
+    #크롭 이미지
+    if x1 > x2:
+        if y1 > y2:
+            cropped_image = image[y2: y1, x2: x1].copy()    
+        else:
+            cropped_image = image[y1: y2, x2: x1].copy()    
+    else:
+        if y1 > y2:
+            cropped_image = image[y2: y1, x1: x2].copy()    
+        else:
+            cropped_image = image[y1: y2, x1: x2].copy()    
+            
+    img = border_make(cropped_image)
+    #이미지 저장하기
+    cv2.imwrite('../image/test_result/{}.jpg'.format(i), img) # 파일 경로 & 명, 
