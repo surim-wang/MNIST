@@ -316,10 +316,23 @@ for i in range(len(st_python['shapes'])):
     
 df.to_csv('../data/dataset_test.csv', encoding ='utf-8')
     
-    
-    
-    
-    
-    
+#%% RGB > HSV 변환후 H,S,V 하나씩 살펴보기 
+
+#json 파일 읽기전에 원본을 불러와서 비교 준비하기
+image = cv2.imread('../image/SCAN_01.jpg')
+hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
+
+# 이미지 분리
+h,s,v = cv2.split(hsv)
+
+#이미지 보기
+cv2.imshow('h',v)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+#결론 h, s는 아무런 데이터가 없고 v 즉, 명암만 있는 이미지이다.
+#기존의 계획 h,s,v로 분리한 뒤 이미지에서 특정 영역의 불필요한 데이터가 있거나 
+#디텍션하기 좋은 데이터가 있을경우 그것을 활용해 디텍션 성능을 높이는것을 목표로 잡았으나
+#v만 존재하는 이미지 이기에 기존이미지와 hsv의 이미지는 다른 차이가 없는것으로 밝혀졌다.
     
     
