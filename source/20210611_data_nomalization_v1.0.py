@@ -57,3 +57,10 @@ duplicated_data4.to_csv('../data/duplicated_data4.csv')
 data_relation5 = data[['병원명', '의뢰의사']]
 duplicated_data5 = data_relation5.drop_duplicates()
 duplicated_data5.to_csv('../data/duplicated_data5.csv') # 병원명 잘못 기입한거 있음
+
+# 의뢰의사 리스트 추출하기 
+data_relation6 = data[['검사명', '검체검사결과', '최저참고치', '최고참고치', '단위']]
+duplicated_data6 = data_relation6.drop_duplicates()
+
+
+
