@@ -21,7 +21,7 @@ for i in range(len(data_list)):
     one_table = pd.read_excel(data_list[i])
     df = df.append(one_table)
 
-#df.to_csv('../data/eda_data.csv', encoding = 'utf-8-sig')    
+df.to_csv('../data/eda_data.csv', encoding = 'utf-8-sig')    
 #%% 
 df = df[['검체', '검체검사결과','검사명','최저참고치', '최고참고치', '단위']].drop_duplicates()
 df = df.drop_duplicates()
