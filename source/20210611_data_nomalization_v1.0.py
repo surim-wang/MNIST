@@ -32,7 +32,7 @@ data = data.drop('성별/나이', axis=1)
 
 #%% 중복을 제거해서 컬럼별 관계를 살펴보자.
 # 관계를 살펴볼 데이터만 불러오기
-data_relation = data[['검사명', '최저참고치', '최고참고치', '단위', '검체검사결과', '검체']]
+data_relation = data[['검사명', '결과', '최저참고치', '최고참고치', '단위', '검체검사결과', '검체', '접수일']]
 duplicated_data = data_relation.drop_duplicates()
 duplicated_data.to_csv('../data/duplicated_data.csv')
 
@@ -63,4 +63,16 @@ data_relation6 = data[['검사명', '검체검사결과', '최저참고치', '�
 duplicated_data6 = data_relation6.drop_duplicates()
 
 
+#%% GFR/MDRD 확인
+sum(data_relation['검사명'] == 'CA')
+sum(data_relation['검사명'] == 'GFR/MDRD')
+df = data_relation[data_relation['검사명'] == 'GFR/MDRD']
+df.sort_values(by=['접수일'], axis= 0)
 
+df = data_relation[data_relation['검사명'] == 'GFR/CKD-EPI']
+df.sort_values(by=['접수일'], axis= 0)
+
+df = data_relation[data_relation['검사명'] == 'BUN']
+df.sort_values(by=['접수일'], axis= 0)
+
+data_relation[data_relation['검사명'] == 'BUN'].sort_values(by=['접수일'], axis= 0)
